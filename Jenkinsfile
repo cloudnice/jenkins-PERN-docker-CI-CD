@@ -2,21 +2,23 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER="cloudnice"
-        APP_REPO_NAME="todo-app"
-        DB_VOLUME="myvolume"
-        NETWORK="mynet"
+        DOCKERHUB_USER = "cloudnice"
+        APP_REPO_NAME = "todo-app"
+        DB_VOLUME = "myvolume"
+        NETWORK = "mynet"
     }
 
     stages {
         stage('Build App Docker Image') {
             steps {
                 echo 'Building App Image'
-                sh 'docker login -u cloudnice -p dckr_pat_FgPcsNllSbyUvuz0jitxyzXB7xQ'
-                sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
-                sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs" -f ./server/Dockerfile .'
-                sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:react" -f ./client/Dockerfile .'
-                sh 'docker image ls'
+                withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOCKERHUB_TOKEN')]) {
+                    sh 'docker login -u cloudnice -p $DOCKERHUB_TOKEN'
+                    sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
+                    sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs" -f ./server/Dockerfile .'
+                    sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:react" -f ./client/Dockerfile .'
+                    sh 'docker image ls'
+                }
             }
         }
 
@@ -95,7 +97,8 @@ pipeline {
             }
         }
     }
-        post {
+
+    post {
         always {
             echo 'Cleaning up'
             script {
@@ -115,5 +118,3 @@ pipeline {
         }
     }
 }
-
-
