@@ -66,7 +66,7 @@ pipeline {
         stage('Deploy the server') {
             steps {
                 echo 'Deploy the server'
-                sh 'docker run --name server -p 5000:5000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:nodejs'
+                sh 'docker  --name server -p 5000:5000 --network $NETWORK --restart always -d $DOCKERHUB_USER/$APP_REPO_NAME:nodejs'
             }
         }
 
