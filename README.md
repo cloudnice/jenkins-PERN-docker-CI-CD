@@ -1,39 +1,75 @@
-# Dockerized Node.js and React App with PostgreSQL Using Jenkins
+# Jenkins Pipeline README
 
-This project includes a Docker-based application with a PostgreSQL database, a Node.js server application, and a React client application.
+Bu Jenkins pipeline, Docker konteynerları kullanarak bir "To-Do" uygulamasının CI/CD süreçlerini otomatize eder. Aşağıda pipeline'ın genel adımları ve bu adımları takip ederken yapılan işlemler açıklanmıştır.
 
-## Running the Project
+## Gereksinimler
 
-This project is created for AWS EC2 Instance. To run it in a different environment, you need to modify the server connection points in the `.env` files.
+- Jenkins CI/CD sunucusu
+- Docker yüklü ve çalışır durumda
+- DockerHub hesabı ve ilgili kimlik bilgileri
+- Jenkins credential'lar: DOCKERHUB_TOKEN, POSTGRES_PASSWORD
 
-1. Open a Terminal or Command Prompt.
-2. Navigate to the directory where the `docker-compose.yaml` file is located.
-3. Run the following command:
+## Jenkins Job Ayarları
 
-    ```bash
-    docker-compose up
-    ```
+1. Yeni bir Jenkins job'u oluşturun ve bu Jenkinsfile'ı pipeline script olarak ekleyin.
 
-4. The applications will start, and you can access the client application at [<http://INSTANCE_PUBLIC_IP>:3000](http://localhost:3000) and the server application at [http://<http://INSTANCE_PUBLIC_IP>:5000](http://localhost:5000).
+2. Jenkins job'unuzun yapılandırmasında, gerekli Jenkins parametrelerini ayarlayın:
+   - `DOCKERHUB_USER`: DockerHub kullanıcı adınız
+   - `APP_REPO_NAME`: Uygulama depo adı
+   - `DB_VOLUME`: Docker volume adı
+   - `NETWORK`: Docker network adı
 
-## Project Structure
+3. Jenkins job'unuzu başlatın ve pipeline'ın başarıyla tamamlanmasını bekleyin.
 
-The project includes the following directories:
+## Pipeline Adımları
 
-- **client**: Client-side application.
-- **database**: Docker files for PostgreSQL database and an initial SQL script.
-- **server**: Server-side application.
+1. **Build App Docker Image:**
+   - Uygulama Docker imajları oluşturulur.
 
-## Docker Compose
+2. **Push Image to DockerHub Repo:**
+   - Oluşturulan Docker imajları DockerHub'a gönderilir.
 
-The `docker-compose.yaml` file defines the services, networks, and environment variables in the project.
-![image](https://github.com/cloudnice/PERN-with-Jenkins/assets/154231505/98a02f35-4fc8-4ea6-87e3-2c056378124e)![image](https://github.com/cloudnice/PERN-with-Jenkins/assets/154231505/07060661-3614-4845-809e-fe572d05a0e2)
+3. **Create Volume:**
+   - Docker volume oluşturulur.
 
+4. **Create Network:**
+   - Docker network oluşturulur.
 
+5. **Deploy the Database:**
+   - PostgreSQL konteynerı oluşturulur ve belirli bir ağa bağlanır.
 
+6. **Wait for the Database Instance:**
+   - PostgreSQL konteynerının hazır olması için beklenir.
 
+7. **Deploy the Server:**
+   - Node.js konteynerı oluşturulur ve belirli bir ağa bağlanır.
 
+8. **Wait for the Server Instance:**
+   - Node.js konteynerının hazır olması için beklenir.
 
+9. **Deploy the Client:**
+   - React konteynerı oluşturulur ve belirli bir ağa bağlanır.
 
+10. **Destroy the Infrastructure:**
+    - Onay alındıktan sonra, konteynerlar, ağlar ve volume'lar silinir.
 
+## Hatalar ve Sorun Giderme
+
+- Eğer hata alırsanız, Jenkins log'larını kontrol edin.
+- Onay alındıktan sonra alınan herhangi bir hata durumunda, Docker kaynaklarının elle temizlenmesi gerekebilir.
+
+## Temizleme ve Son Durum Kontrolü
+
+Pipeline'ın her durumunda, `post` bloğu aşağıdaki adımları gerçekleştirir:
+
+- **Always (Her Zaman):**
+  - Tüm Docker konteynerları ve imajları, ağlar ve volume'lar silinir.
+  
+- **Success (Başarı):**
+  - Pipeline başarıyla tamamlandığında yazılır.
+  
+- **Failure (Başarısızlık):**
+  - Pipeline başarısız olduğunda yazılır ve hata durumunda temizleme işlemleri gerçekleştirilir.
+
+---
 
