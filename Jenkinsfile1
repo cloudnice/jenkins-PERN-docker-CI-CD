@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     echo 'Waiting for the db container'
-                    sh 'sleep 120'
+                    sh 'sleep 30'
                 }
             }
         }
@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {
                     echo 'Waiting for the server container'
-                    sh 'sleep 60'
+                    sh 'sleep 30'
                 }
             }
         }
