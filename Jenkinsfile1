@@ -13,6 +13,7 @@ pipeline {
         stage('Build App Docker Image') {
             steps {
                 echo 'Building App Image'
+                sh 'docker login -u cloudnice -p dckr_pat_FgPcsNllSbyUvuz0jitxyzXB7xQ'
                 sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
                 sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs" -f ./server/Dockerfile .'
                 sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:react" -f ./client/Dockerfile .'
