@@ -23,11 +23,12 @@ pipeline {
             steps {
                 echo 'Pushing App Image to Dockerhub Repo'
                 withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOCKERHUB_TOKEN')]) {
+                sh 'docker container ls && docker images && docker network ls && docker volume ls'
                 // sh 'docker login -u cloudnice -p $DOCKERHUB_TOKEN'
                 // sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:postgre"'
                 // sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs"'
                 // sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:react"'
-                // }    
+                 }    
             }
         }
 
