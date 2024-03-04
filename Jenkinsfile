@@ -12,8 +12,6 @@ pipeline {
         stage('Build App Docker Image') {
             steps {
                 echo 'Building App Image'
-                
-                    sh 'docker login -u cloudnice -p $DOCKERHUB_TOKEN'
                     sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:postgre" -f ./database/Dockerfile .'
                     sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs" -f ./server/Dockerfile .'
                     sh 'docker build --force-rm -t "$DOCKERHUB_USER/$APP_REPO_NAME:react" -f ./client/Dockerfile .'
@@ -25,6 +23,7 @@ pipeline {
             steps {
                 echo 'Pushing App Image to Dockerhub Repo'
                 withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOCKERHUB_TOKEN')]) {
+                sh 'docker login -u cloudnice -p $DOCKERHUB_TOKEN'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:postgre"'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:nodejs"'
                 sh 'docker push "$DOCKERHUB_USER/$APP_REPO_NAME:react"'
