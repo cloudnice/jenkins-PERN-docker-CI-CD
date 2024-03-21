@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: react-deploy
+  name: react-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-deploy
+  template:
+    metadata:
+      labels:
+        app: react-deploy
+    spec:
+      containers:
+      - image: cloudnice/react-image-kubernetes-todos
+        name: react
+        env:
+         - name: REACT_APP_BASE_URL
+           value: http://<NODEJS_IP:NODEPORT>/
+        ports:
+        - containerPort: 3000
+        resources: {}

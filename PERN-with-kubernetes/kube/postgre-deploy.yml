@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - image: cloudnice/postgres-image-kubernetes-todos
+        name: postgres
+        ports:
+        - containerPort: 5432
+        env:
+        # - name: POSTGRES_DB
+        #   value: clarustodo
+        # - name: POSTGRES_USER
+        #   value: postgres
+        - name: POSTGRES_PASSWORD
+          value: Pp123456789
+        # - name: DB_HOST
+        #   value: db-service
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-persistent-volume
+        resources: {}
+
+      volumes:
+      - name: postgres-persistent-volume
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
