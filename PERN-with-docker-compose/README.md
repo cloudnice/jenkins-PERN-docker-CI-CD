@@ -29,7 +29,8 @@ The project includes the following directories:
 The `docker-compose.yaml` file defines the services, networks, and environment variables in the project.
 
 
-![alt text](image.png)
+![image](https://github.com/foriinji/My-PERN-DevOps-Projects/assets/154231505/676b7750-32a0-4639-be56-ce9a62d75575)
+
 
 
 
