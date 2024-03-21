@@ -1,6 +1,6 @@
-CREATE DATABASE cloudnice;
+CREATE DATABASE foriinji;
 
-\c cloudnice;
+\c foriinji;
 
 CREATE TABLE todo(
     todo_id SERIAL PRIMARY KEY,
