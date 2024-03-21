@@ -1,7 +1,8 @@
 # Jenkins Pipeline README
 
 Bu Jenkins pipeline, Docker konteynerları kullanarak bir "To-Do" uygulamasının CI/CD süreçlerini otomatize eder. Aşağıda pipeline'ın genel adımları ve bu adımları takip ederken yapılan işlemler açıklanmıştır.
-![jenkins_1](https://github.com/cloudnice/jenkins-deneme/assets/154231505/989355af-545c-4144-b1e6-eda99d587bcd)
+![image](https://github.com/foriinji/My-PERN-DevOps-Projects/assets/154231505/036d26d5-4280-4290-b035-c0f6b74859b5)
+
 ![jenkins2](https://github.com/cloudnice/jenkins-deneme/assets/154231505/f9be3be1-1e4a-4b75-9625-5ce48d1ad89d)
 
 
