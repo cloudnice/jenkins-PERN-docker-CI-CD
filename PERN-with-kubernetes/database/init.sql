@@ -1,6 +1,6 @@
-CREATE DATABASE clarustodo;
+CREATE DATABASE foriinji;
 
-\c clarustodo;
+\c foriinji;
 
 CREATE TABLE todo(
     todo_id SERIAL PRIMARY KEY,
